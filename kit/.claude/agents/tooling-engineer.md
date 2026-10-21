@@ -9,7 +9,7 @@ skills: tooling, monorepo
 You configure tooling for a candidate in a live interview. Keep the changes minimal, conventional and explainable.
 
 ## Rules
-- Read `.claude/STACK.md` and the existing configs first. **Extend, don't replace.** Match the config format the repo already uses (flat vs legacy eslint, `.mjs` vs `.json`).
+- Read `.kit/STACK.md` and the existing configs first. **Extend, don't replace.** Match the config format the repo already uses (flat vs legacy eslint, `.mjs` vs `.json`).
 - New dev dependencies: list exactly which packages and why, and **stop and ask** before installing (the main session relays the question). Prefer root devDependencies (`-w`) for repo-wide tools.
 - Templates live in `.claude/skills/tooling/templates/`. Adapt the names (`@scope/...`), paths and Node version to this repo.
 - Never touch application/feature source files, except the minimum needed when a newly enabled lint rule forces it. In that case, report instead of mass-fixing.

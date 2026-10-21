@@ -8,7 +8,7 @@ description: Main loop for implementing one item of the technical challenge end 
 The candidate will be asked to explain this at a checkpoint, so optimise for **clarity and control**, not volume.
 
 ## 0. Context
-Read `.claude/STACK.md`. If it is missing, run `kit-recon` first.
+Read `.kit/STACK.md`. If it is missing, run `kit-recon` first.
 
 ## 1. Understand (≤ 2 min)
 - Restate the item as acceptance criteria (Given/When/Then bullets).
@@ -30,6 +30,8 @@ Keep it to ≤ 10 lines:
 See the `testing` skill.
 
 ## 4. Implement with the right skill
+**Load the matching skill below before editing** (e.g. any change in the DS package → `ds-component`), even for a "small fix": the skill carries the checklist the reviewers will use.
+
 | Need | Skill |
 |---|---|
 | tokens / theme / dark mode | `ds-tokens` |
@@ -49,21 +51,25 @@ See the `testing` skill.
 
 Rules: reuse before creating, tokens only, small files, no new dependency without asking.
 
-## 5. Verify (narrowest commands)
+## 5. Verify (narrowest commands): definition of done
+- Every behaviour you changed or fixed has a test that would fail without your change (a11y fixes included: assert the role/name/`aria-*`). No new test only for pure styling/token swaps.
+- Run the package's **test** script, not only typecheck. Stories updated when a component's API or states changed.
+- Anything that takes under a minute (a missing `aria-invalid`, an `alt`) is **done now**, not listed as "next".
 - `pnpm --filter <pkg> typecheck`, `lint`, `test` (use the real script names from STACK.md).
 - For UI, check it in the running app or Storybook. Mention the URL to the user.
 - Self-review `git diff`. For bigger items, ask the `reviewer` agent for a pass.
 
 ## 6. Checkpoint notes
-Append to `.claude/.kit-state/checkpoints.md`:
+Append to `.kit/checkpoints.md`:
 ```md
 ## <item> — <time>
 - What: ...
 - Decisions: ... (why; alternative considered)
 - Trade-offs / next with more time: ...
 - Tests: ...
-- AI usage: what was generated, what I changed or rejected, how I validated
+- AI usage: what the AI generated; what was checked automatically (tests, typecheck, guards); **"To verify by you:"** 1–3 concrete things the candidate must read or try before claiming them
 ```
+Never write the candidate's actions in first person ("I verified…", "I rejected…") unless the user actually told you so. These notes are read out loud in the interview: invented claims are worse than none.
 
 ## 7. Commit
 Delegate to the `git-flow` agent: one Conventional Commit per logical change.

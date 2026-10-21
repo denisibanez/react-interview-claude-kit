@@ -7,7 +7,7 @@ A kit of **skills, agents and guards** for Claude Code that you install into any
 ~/interview-kit/install.sh ~/path/to/their-repo
 cd ~/path/to/their-repo && git status   # nothing from the kit should show up
 ```
-Then open Claude Code in the repo and say: **"run kit-recon"**.
+Then open Claude Code in the repo and say: **"run kit-recon"**. Start every challenge item with **`/feature <item>`**: skills are model-invoked and can be skipped, an explicit slash command is not.
 
 Uninstall: `~/interview-kit/uninstall.sh ~/path/to/repo`
 
@@ -18,7 +18,7 @@ How it stays invisible: everything goes into `.claude/` + `CLAUDE.local.md` and 
 ### Skills (18; Claude loads them from context, or you call them with `/name`)
 | Skill | Purpose |
 |---|---|
-| `kit-recon` | Maps the repo (pnpm, Next/Vite, Tailwind/SCSS, Redux/Zustand, Jest/Vitest...) and writes `.claude/STACK.md`, which every other skill reads |
+| `kit-recon` | Maps the repo (pnpm, Next/Vite, Tailwind/SCSS, Redux/Zustand, Jest/Vitest...) and writes `.kit/STACK.md`, which every other skill reads |
 | `feature` | The loop for each item: understand → plan → test first → implement → verify → notes → commit |
 | `ds-tokens` | 3-layer tokens, themes/dark mode, Tailwind v4/v3, SCSS, CSS-in-JS, MUI; Figma variables → tokens |
 | `ds-component` | DS component: variant API, ref, className, a11y, story + test. References per styling approach (cva, CSS Modules, styled, UI lib) |

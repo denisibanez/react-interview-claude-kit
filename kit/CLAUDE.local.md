@@ -5,11 +5,11 @@ This is a live 2h technical challenge. The candidate (the user) must be able to 
 Speed matters, but **control and clarity matter more than volume**.
 
 ## Always
-- Read `.claude/STACK.md` first. If it is missing, run the `kit-recon` skill before writing any code.
+- Read `.kit/STACK.md` first. If it is missing, run the `kit-recon` skill before writing any code.
 - **Follow the repo's existing conventions** over the kit's defaults: naming, folder layout, export style, styling approach, test runner, state lib. The kit's patterns are the fallback when the repo has none.
 - One challenge item at a time, through the `feature` skill: plan → (test) → implement → verify → checkpoint notes → commit.
 - Small, reviewable diffs. Show the plan before large changes and wait for the user's OK.
-- After each item, append talking points to `.claude/.kit-state/checkpoints.md` (the `checkpoint` skill reads it).
+- After each item, append talking points to `.kit/checkpoints.md` (the `checkpoint` skill reads it).
 - Verify with the narrowest command: `pnpm --filter <pkg> <script>` instead of the whole monorepo.
 - Architecture: follow the repo's; if there is none, pick one with the `architecture` skill and **state the reason** in the checkpoint notes. Pages wire data into slot-based templates (`layouts-templates`); the DS stays data-free.
 - Every hook/approach choice must be justifiable in one sentence (`react-expert`): no effects for derived data or events, server data in the query layer, not in a store.

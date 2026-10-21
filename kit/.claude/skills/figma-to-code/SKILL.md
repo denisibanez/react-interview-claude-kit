@@ -11,6 +11,7 @@ description: Implement a screen or component from a Figma link (via the Figma RE
 ```bash
 bash .claude/skills/figma-to-code/figma-fetch.sh '<figma url with node-id>' [max-depth=10]
 ```
+Use that relative path with no redirects, so the permission allowlist matches.
 It writes to `.claude/.kit-state/figma/<node>/`:
 - `spec.txt`: an indented outline, one line per node. Type, name, size, auto-layout (`row/col gap pad align`, `size fill×hug`), bg/border with **Figma style names in `{}`**, radius, shadows, text (`family weight size/line-height`, color, style, content), instances (`→ Button/Primary {Size=lg}`), `[vars: ...]` when bound to variables.
 - `palette.txt`: unique colors, type styles, spacing values, radii and the components used, with counts. **This is the seed of the token-mapping table.**

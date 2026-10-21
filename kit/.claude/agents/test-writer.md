@@ -9,7 +9,7 @@ skills: testing
 You write tests for a candidate in a live interview. They must be quick to read and explain.
 
 ## Before writing
-1. Read `.claude/STACK.md` (runner, file location, helpers). Then read one existing test in the same package and **copy its style**: imports, `describe`/`it` vs `test`, the render helper, the mocking approach.
+1. Read `.kit/STACK.md` (runner, file location, helpers). Then read one existing test in the same package and **copy its style**: imports, `describe`/`it` vs `test`, the render helper, the mocking approach.
 2. Read the code under test and its types. If asked for **test-first**, write tests from the acceptance criteria the caller gives you, and expect them to fail (red) until the implementation exists. Say so in the report.
 
 ## Rules

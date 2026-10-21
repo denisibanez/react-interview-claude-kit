@@ -6,9 +6,9 @@ description: Prepare what the candidate will say at an interview checkpoint, fro
 # Checkpoint script
 
 ## Inputs
-- `.claude/.kit-state/checkpoints.md`: the notes written per item.
+- `.kit/checkpoints.md`: the notes written per item.
 - `git log --oneline <since last checkpoint>` and `git diff --stat`.
-- `.claude/STACK.md`, for the interview language. Default to the user's language.
+- `.kit/STACK.md`, for the interview language. Default to the user's language.
 
 ## Output (print it, don't write a file)
 
@@ -22,9 +22,10 @@ Use the structure **Context → What I did → Key decision → Trade-off → Ne
 Include at least one design-system decision (tokens, variants API, composition or a11y) and, on the first checkpoint, the architecture decision (`architecture` skill, section 4).
 
 ### 3. AI usage, transparently
-- What the AI generated, what the candidate reviewed or changed, and what was rejected and why.
+- What the AI generated, what the candidate reviewed or changed, and what was rejected and why. **Only state reviews/rejections the user confirmed**; otherwise ask them ("did you change or reject anything in this item?") and leave a placeholder.
 - How it was validated: typecheck, tests, the story, reading the diff.
-- The guardrails in place: hooks that block `any` and hardcoded colours, the typecheck on stop, and the no-new-deps rule.
+- The guardrails in place, named precisely: **Claude Code hooks** that run on every AI edit (flag `any`, hardcoded colours, a11y smells), a typecheck when the AI finishes a turn, and confirmations before new deps/pushes. They are not git pre-commit hooks (unless the repo also has husky).
+- Relay reviewer findings only if they were verified (a passing test beats a reviewer's claim). Never put an unverified "must fix" in the script.
 
 ### 4. Demo path
 3–5 steps: what to open (the Storybook story, the route, the test run) and in which order. Lead with the most impressive thing.

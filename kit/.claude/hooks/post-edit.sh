@@ -10,7 +10,7 @@ file=$(jq -r '.tool_input.file_path // empty')
 root="${CLAUDE_PROJECT_DIR:-$PWD}"
 
 case "$file" in
-  */node_modules/*|*/.claude/*|*/dist/*|*/build/*|*/.next/*|*/storybook-static/*|*/coverage/*) exit 0 ;;
+  */node_modules/*|*/.claude/*|*/.kit/*|*/dist/*|*/build/*|*/.next/*|*/storybook-static/*|*/coverage/*) exit 0 ;;
 esac
 case "$file" in
   *.ts|*.tsx|*.js|*.jsx|*.mjs|*.cjs|*.css|*.scss|*.json|*.md|*.mdx|*.yml|*.yaml) ;;
@@ -35,14 +35,21 @@ esac
 
 [ -f "$root/.claude/.kit-state/guards-off" ] && exit 0
 
-# Changed line ranges ("start-end ...") vs HEAD; empty mode=all for new/untracked files or repos without commits.
+# Changed line ranges ("start-end ...") vs HEAD; mode=all for new/untracked files or repos without commits.
 fdir=$(dirname "$file"); fbase=$(basename "$file")
 mode=all; ranges=""
 if git -C "$fdir" rev-parse --verify -q HEAD >/dev/null 2>&1 \
   && git -C "$fdir" ls-files --error-unmatch -- "$fbase" >/dev/null 2>&1; then
   mode=diff
-  ranges=$(git -C "$fdir" diff -U0 HEAD -- "$fbase" \
-    | awk '/^@@/ { split($3, a, ","); s = substr(a[1], 2); n = (a[2] == "") ? 1 : a[2]; if (n > 0) printf "%d-%d ", s, s + n - 1 }')
+  # New-file line numbers of added lines, skipping lines that only moved/re-wrapped
+  # (their whitespace-free text appears in the removed side of the same hunk, e.g. prettier).
+  ranges=$(git -C "$fdir" diff -U0 HEAD -- "$fbase" | awk '
+    function flush() { for (i = 1; i <= na; i++) { t = add[i]; gsub(/[[:space:]]/, "", t); if (t == "" || index(rem, t) == 0) printf "%d-%d ", ln[i], ln[i] } na = 0; rem = "" }
+    /^@@/ { flush(); split($3, a, ","); cur = substr(a[1], 2) + 0; next }
+    /^\+\+\+|^---/ { next }
+    /^-/ { r = substr($0, 2); gsub(/[[:space:]]/, "", r); rem = rem r; next }
+    /^\+/ { na++; add[na] = substr($0, 2); ln[na] = cur; cur++; next }
+    END { flush() }')
   [ -z "$ranges" ] && exit 0
 fi
 only_changed() { # filters "N:line" input to changed lines

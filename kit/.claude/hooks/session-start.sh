@@ -2,17 +2,21 @@
 # SessionStart: re-inject the stack profile so it survives /clear and compaction.
 root="${CLAUDE_PROJECT_DIR:-$PWD}"
 
-echo "Interview kit active. Rules: CLAUDE.local.md. Skills: kit-recon, feature, ds-tokens, ds-component, storybook, figma-to-code, api-layer, state-management, forms, testing, monorepo, tooling, nextjs, checkpoint, ship. Agents: git-flow, reviewer, test-writer, tooling-engineer."
+# Skills/agents are already listed to Claude by Claude Code itself; don't repeat them here.
+echo "Interview kit active. Rules: CLAUDE.local.md. Start each challenge item with the feature skill."
 
-if [ -f "$root/.claude/STACK.md" ]; then
+if [ -f "$root/.kit/STACK.md" ]; then
   echo
-  echo "--- .claude/STACK.md ---"
-  cat "$root/.claude/STACK.md"
+  echo "--- .kit/STACK.md ---"
+  cat "$root/.kit/STACK.md"
 else
-  echo "No .claude/STACK.md yet: run the kit-recon skill before writing code."
+  echo "No .kit/STACK.md yet: run the kit-recon skill before writing code."
 fi
 
 if [ -f "$root/.claude/.kit-state/typecheck-off" ]; then
   echo "(Stop-hook typecheck is OFF: delete .claude/.kit-state/typecheck-off to re-enable.)"
+fi
+if [ -f "$root/.claude/.kit-state/guards-off" ]; then
+  echo "(Post-edit smell report is OFF: delete .claude/.kit-state/guards-off to re-enable.)"
 fi
 exit 0

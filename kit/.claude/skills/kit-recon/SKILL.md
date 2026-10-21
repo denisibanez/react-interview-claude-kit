@@ -1,14 +1,14 @@
 ---
 name: kit-recon
-description: Map an unfamiliar React/TypeScript repo or monorepo before writing any code. Detects package manager, workspaces, framework (Next/Vite), styling (Tailwind/SCSS/CSS-in-JS/UI library), state (Redux Toolkit/Zustand/Context), data fetching, validation (zod), tests (Jest/Vitest/Playwright), Storybook, lint/format/husky and CI, then writes .claude/STACK.md, which every other kit skill reads. Use at the very start of the challenge, or when STACK.md is missing or stale.
+description: Map an unfamiliar React/TypeScript repo or monorepo before writing any code. Detects package manager, workspaces, framework (Next/Vite), styling (Tailwind/SCSS/CSS-in-JS/UI library), state (Redux Toolkit/Zustand/Context), data fetching, validation (zod), tests (Jest/Vitest/Playwright), Storybook, lint/format/husky and CI, then writes .kit/STACK.md, which every other kit skill reads. Use at the very start of the challenge, or when STACK.md is missing or stale.
 ---
 
-# Repo recon → `.claude/STACK.md`
+# Repo recon → `.kit/STACK.md`
 
 Goal: in ~10 minutes, know the stack and the conventions well enough that every later change looks like it was written by the team.
 
 ## 1. Facts (deterministic)
-Run: `bash .claude/skills/kit-recon/detect.sh`
+Run exactly `bash .claude/skills/kit-recon/detect.sh` (relative path, no redirects: that is what the permission allowlist matches).
 It prints the lockfile, workspaces, packages, relevant dependencies per package, scripts, config files, DS hints and git style.
 
 ## 2. Conventions (read, don't guess)
@@ -23,9 +23,9 @@ Open just enough to answer these. Cite real paths in STACK.md.
 - **Quality gates:** eslint rules that will bite, prettier config, husky hooks, commitlint, CI steps.
 
 ## 3. Smoke-run
-Run `pnpm install` (or the detected PM), then the narrowest typecheck, lint and test commands. Note anything **already broken before any change**, so nobody blames the candidate later. Don't start long-running servers here; the user decides.
+Run `pnpm install` (or the detected PM), then the narrowest typecheck, lint, test **and build** commands (the build often runs lint/type checks the others skip). Note anything **already broken before any change**, so nobody blames the candidate later. Don't start long-running servers here; the user decides.
 
-## 4. Write `.claude/STACK.md`
+## 4. Write `.kit/STACK.md` (create the `.kit/` folder; it is git-excluded. Never write kit notes inside `.claude/`: it needs extra approvals)
 Keep it under ~80 lines, using this template:
 
 ```md

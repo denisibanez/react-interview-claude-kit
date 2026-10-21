@@ -25,6 +25,6 @@ EXCLUDE="$(git -C "$TARGET" rev-parse --git-path info/exclude)"
 case "$EXCLUDE" in /*) ;; *) EXCLUDE="$TARGET/$EXCLUDE" ;; esac
 [ -f "$EXCLUDE" ] && sed -i '' '/# interview-kit:start/,/# interview-kit:end/d' "$EXCLUDE"
 
-rm -rf "$STATE" "$TARGET/.claude/STACK.md"
+rm -rf "$STATE" "$TARGET/.kit"
 rmdir "$TARGET/.claude/skills" "$TARGET/.claude/agents" "$TARGET/.claude/hooks" "$TARGET/.claude" 2>/dev/null || true
 echo "✓ Interview kit removed from $TARGET"

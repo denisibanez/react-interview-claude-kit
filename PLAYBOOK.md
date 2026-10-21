@@ -28,7 +28,7 @@ Small things that, if they fail on the day, burn 15 minutes and your nerves:
 |---|---|
 | 0:00–0:15 | Read the whole brief. `install.sh`, then **kit-recon**. Run install, typecheck and tests. Note what's already broken |
 | 0:15–0:25 | Prioritise the items (value × cost). Ask the interviewers 2–4 questions (see below) |
-| loop | One item at a time with the **feature** skill: plan (shift+tab = plan mode) → test → implement → verify → notes → commit |
+| loop | One item at a time: **type `/feature <item>`** (explicitly: in tests Claude skipped the loop when just asked to "fix X") → plan (shift+tab = plan mode) → test → implement → verify → notes → commit. `/clear` between items |
 | before each checkpoint | **reviewer** agent on the diff, then the **checkpoint** skill to prepare what you'll say |
 | last 10 min | PR description/README with decisions, trade-offs and next steps. Final commit |
 
@@ -48,7 +48,8 @@ Small things that, if they fail on the day, burn 15 minutes and your nerves:
 
 ## 4. How to talk about using AI (they will ask)
 - **AI as a pair, you as the owner:** "I set the plan and the patterns; the AI speeds up the typing; I review every diff."
-- **Guardrails:** "I set up hooks that block `any` and hardcoded colors, run the typecheck, and ask for confirmation before installing a dependency or pushing. That keeps the AI within the DS rules."
+- **Guardrails:** "I set up Claude Code hooks: every AI edit is checked for `any`, hardcoded colors and a11y smells, the typecheck runs when the AI finishes, and it must ask before installing a dependency or pushing. That keeps the AI within the DS rules." (They are Claude Code hooks, not git pre-commit hooks: say it precisely.)
+- **Don't trust the AI reviewer blindly:** in the kit's own tests the reviewer agent once claimed a bug that a passing test disproved. Verify before you repeat it.
 - **Validation:** "Nothing goes in without typecheck, tests and me reading the diff. Here I rejected X because..." (have 1 real example of something you corrected).
 - **Context:** "First I mapped the repo (STACK.md) so the AI follows your conventions, not mine."
 

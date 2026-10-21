@@ -1,6 +1,6 @@
 ---
 name: react-expert
-description: Senior React/Next judgement — pick the right hook, the right rendering/data approach and the right component pattern, and justify it. Covers useState vs useReducer, when NOT to useEffect, useMemo/useCallback/memo, useRef, useLayoutEffect, useId, useTransition/useDeferredValue, useSyncExternalStore, React 19 (use, useActionState, useOptimistic, useFormStatus), custom hooks, Suspense/error boundaries, composition patterns, performance and Next server/client decisions. Use when writing or reviewing any component or hook logic, when the user asks "which hook/approach is best", or mentions re-renders, effects, performance or patterns.
+description: Senior React/Next judgement — pick the right hook, the right rendering/data approach and the right component pattern, and justify it. Covers useState vs useReducer, when NOT to useEffect, useMemo/useCallback/memo, useRef, useLayoutEffect, useId, useTransition/useDeferredValue, useSyncExternalStore, React 19 (use, useActionState, useOptimistic, useFormStatus), custom hooks, Suspense/error boundaries, composition patterns, performance and Next server/client decisions. Use when writing or reviewing any component or hook logic, when the user asks "which hook/approach is best", or mentions re-renders, effects, performance or patterns. For "Context vs Zustand vs Redux" use the state-management skill instead.
 ---
 
 # React expert: choose, then justify
