@@ -37,7 +37,7 @@ How it stays invisible: everything goes into `.claude/` + `CLAUDE.local.md` and 
 | `nextjs` | App Router, RSC vs client, Next 15 (async params, caching), actions, pitfalls |
 | `checkpoint` | Builds your spoken script + decisions + AI usage + likely questions |
 
-### Agents (subagents, run in parallel / in the background)
+### Agents (subagents with their own context; only `tooling-engineer` should run in the background during the challenge)
 | Agent | Purpose |
 |---|---|
 | `git-flow` | Branch, atomic Conventional commits, push, PR with a good description. Never `--no-verify`, never force push, no AI trailer |
@@ -54,5 +54,6 @@ How it stays invisible: everything goes into `.claude/` + `CLAUDE.local.md` and 
 | **Stop** | Typecheck of **only the changed packages**, reporting **only errors in the files you touched** (errors that already existed in the repo don't block). Turn off: `touch .claude/.kit-state/typecheck-off` |
 
 ## Supporting files (for you to read)
+- [CHECKLIST.md](CHECKLIST.md): step-by-step actions until the interview, the rehearsal and the day itself
 - [PLAYBOOK.md](PLAYBOOK.md): checklist before Monday, the 2h plan, how to talk about AI, DS questions, lessons from your airbnb repo
 - [VUE-REACT.md](VUE-REACT.md): Vue → React cheat sheet

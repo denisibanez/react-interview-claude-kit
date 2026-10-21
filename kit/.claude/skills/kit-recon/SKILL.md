@@ -24,6 +24,7 @@ Open just enough to answer these. Cite real paths in STACK.md.
 
 ## 3. Smoke-run
 Run `pnpm install` (or the detected PM), then the narrowest typecheck, lint, test **and build** commands (the build often runs lint/type checks the others skip). Note anything **already broken before any change**, so nobody blames the candidate later. Don't start long-running servers here; the user decides.
+**Time the typecheck** of the main app (`time pnpm --filter <app> typecheck`). The Stop hook runs it after every Claude turn: if it takes more than ~20 s, tell the user and suggest `touch .claude/.kit-state/typecheck-off` (then run it manually before each commit). Record the time in STACK.md.
 
 ## 4. Write `.kit/STACK.md` (create the `.kit/` folder; it is git-excluded. Never write kit notes inside `.claude/`: it needs extra approvals)
 Keep it under ~80 lines, using this template:
@@ -49,6 +50,7 @@ Keep it under ~80 lines, using this template:
 | CI | .github/workflows/ci.yml | |
 
 ## Commands
+- typecheck time (Stop hook cost): ~N s
 - dev: `pnpm --filter web dev`
 - typecheck / lint / test (per package): ...
 

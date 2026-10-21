@@ -26,7 +26,7 @@ Keep it to ≤ 10 lines:
 - Pure logic, zod schemas, reducers/slices, custom hooks → write the test first (red).
 - Components → one behaviour test (role-based query + userEvent) for the main interaction.
 - Skip test-first for pure layout. Cover layout with a story instead.
-- In parallel, the `test-writer` agent can write tests in the background while you implement.
+- No parallel agents on feature code: the candidate must be able to explain every line, and tests written against moving code go stale. Use `test-writer` only after the implementation settles, and only if the user asks.
 See the `testing` skill.
 
 ## 4. Implement with the right skill
@@ -41,7 +41,7 @@ See the `testing` skill.
 | shared client state | `state-management` |
 | form + validation | `forms` |
 | new package / workspace wiring | `monorepo` |
-| lint / prettier / husky / CI | `tooling` (or the `tooling-engineer` agent in background) |
+| lint / prettier / husky / CI | `tooling` (or the `tooling-engineer` agent in background: the only safe parallel task, it never touches feature code) |
 | Next specifics (RSC, routes, actions) | `nextjs` |
 | which hook / pattern / perf approach | `react-expert` |
 | where code goes, folder structure, boundaries | `architecture` |

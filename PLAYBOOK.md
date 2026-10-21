@@ -36,7 +36,7 @@ Small things that, if they fail on the day, burn 15 minutes and your nerves:
 
 **Golden rule:** if an item goes past ~25 min, cut scope and write down the TODO. Showing 4 well-done items is worth more than 1 perfect one.
 
-**Parallelism that impresses (when it makes sense):** while you implement the feature, `test-writer` writes tests in the background and `tooling-engineer` sets up husky/CI. At the checkpoint, explain why you delegated each part.
+**Parallelism: only for tooling.** `tooling-engineer` can set up husky/CI in the background because it never touches feature code. Feature code and its tests stay sequential, in small diffs you read: you are the one being evaluated, and you must be able to explain every line.
 
 ### Good questions to ask at the start
 - "What's the design source of truth: Figma, Storybook or tokens in code?"
@@ -47,11 +47,22 @@ Small things that, if they fail on the day, burn 15 minutes and your nerves:
 - "Is there a backend/API, or should I mock it?"
 
 ## 4. How to talk about using AI (they will ask)
+- **Be open about the kit from the start.** At the first checkpoint (or when you start): "I use a personal Claude Code setup: skills, guards and agents I built for this kind of challenge. It's public on my GitHub (react-interview-claude-kit). It's installed locally and git-excluded, so it doesn't touch your repo." Invisible to git is right; hidden from them is not. If they find it on your own, it looks like concealment.
 - **AI as a pair, you as the owner:** "I set the plan and the patterns; the AI speeds up the typing; I review every diff."
 - **Guardrails:** "I set up Claude Code hooks: every AI edit is checked for `any`, hardcoded colors and a11y smells, the typecheck runs when the AI finishes, and it must ask before installing a dependency or pushing. That keeps the AI within the DS rules." (They are Claude Code hooks, not git pre-commit hooks: say it precisely.)
 - **Don't trust the AI reviewer blindly:** in the kit's own tests the reviewer agent once claimed a bug that a passing test disproved. Verify before you repeat it.
 - **Validation:** "Nothing goes in without typecheck, tests and me reading the diff. Here I rejected X because..." (have 1 real example of something you corrected).
 - **Context:** "First I mapped the repo (STACK.md) so the AI follows your conventions, not mine."
+
+## 4b. Driving Claude live (practice this in the rehearsal)
+- **One item, one `/feature`, one `/clear`.** Start each item with `/feature <item + acceptance criteria>`; `/clear` before the next item (STACK.md is re-injected automatically).
+- **Short prompts with acceptance criteria**, not essays: "Badge in packages/ui: variants neutral/success/danger, sizes sm/md, story + test. Follow Button's pattern."
+- **Plan first for anything over ~3 files** (shift+tab → plan mode). Read the plan, cut scope there, not after 300 lines exist.
+- **Read every diff before accepting.** If you can't explain a line, ask "why this?" or reject it. Small diffs make this possible.
+- **Interrupt early** (Esc) when it goes the wrong way; redirect with one sentence instead of letting it finish.
+- **Steer with the repo:** "do it like `packages/ui/src/components/Button`" beats describing the pattern.
+- **When stuck > 5 min on tooling/config**, cut it: write the TODO in the checkpoint notes and move on.
+- **Your words at the checkpoint:** use the `checkpoint` skill output as a draft; remove anything you didn't actually check.
 
 ## 5. Likely questions from a DS-strong team
 | Question | Answer outline |
