@@ -1,0 +1,37 @@
+trigger:
+  branches: { include: [main] }
+pr:
+  branches: { include: ['*'] }
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  PNPM_STORE: $(Pipeline.Workspace)/.pnpm-store
+
+steps:
+  - task: NodeTool@0
+    inputs: { versionSpec: '22.x' }
+  - script: corepack enable && pnpm config set store-dir $(PNPM_STORE)
+    displayName: Enable pnpm
+  - task: Cache@2
+    inputs:
+      key: 'pnpm | "$(Agent.OS)" | pnpm-lock.yaml'
+      restoreKeys: 'pnpm | "$(Agent.OS)"'
+      path: $(PNPM_STORE)
+    displayName: Cache pnpm store
+  - script: pnpm install --frozen-lockfile
+    displayName: Install
+  - script: pnpm turbo run lint typecheck test
+    displayName: Lint, typecheck, test
+  - script: pnpm turbo run build
+    displayName: Build
+  - script: |
+      pnpm --filter @scope/web exec playwright install --with-deps chromium
+      pnpm --filter @scope/web exec playwright test
+    displayName: E2E
+  - task: PublishPipelineArtifact@1
+    condition: failed()
+    inputs:
+      targetPath: apps/web/playwright-report
+      artifact: playwright-report

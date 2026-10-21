@@ -1,0 +1,4 @@
+.DS_Store
+*.backup
+.kit-state/
+node_modules/

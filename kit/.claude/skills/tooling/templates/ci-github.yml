@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # needed for --filter=...[origin/main]
+      - uses: pnpm/action-setup@v4 # reads "packageManager" from package.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc # or node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Lint, typecheck, test (affected on PRs)
+        run: |
+          FILTER=${{ github.event_name == 'pull_request' && '--filter=...[origin/main]' || '' }}
+          pnpm turbo run lint typecheck test $FILTER
+      - run: pnpm turbo run build
+      - name: Build Storybook
+        run: pnpm --filter @scope/ui build-storybook
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: storybook
+          path: packages/ui/storybook-static
+          if-no-files-found: ignore
+
+  e2e:
+    needs: quality
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @scope/web exec playwright install --with-deps chromium
+      - run: pnpm --filter @scope/web exec playwright test
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: apps/web/playwright-report
